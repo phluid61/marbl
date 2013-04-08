@@ -36,7 +36,7 @@ class MarblParser
 	end
 
 	def parse_hex str, tree
-		_parse_number 16, /[0-9A-F]/i, str, tree
+		_parse_number 16, /[[:xdigit:]]/, str, tree
 	end
 
 	def parse_decimal str, tree
