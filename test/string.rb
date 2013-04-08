@@ -41,7 +41,7 @@ class Test_parser < Test::Unit::TestCase
 		assert_equal( ['',%q[\\]], parse_dq_string( %q["\\\\"] ))
 		assert_equal( ['',%q["]], parse_dq_string( %q["\""] ))
 		assert_equal( ['',%q[\\"]], parse_dq_string( %q["\\\\\""] ))
-		assert_equal( ['',%q[hello world]], parse_dq_string( %q["hello\ world"] ))
+		assert_equal( ['',%Q[\thello world\n]], parse_dq_string( %q["\thello\ world\n"] ))
 	end
 end
 
