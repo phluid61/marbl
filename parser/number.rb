@@ -53,59 +53,63 @@ class MarblParser
 
 	def _parse_number base, digit, str, tree
 		n = ''
-		until str.empty?
-			case c=str[0,1]
+		i = 0
+		until (c=str[i,1]).empty?
+			case c
 #			when '_'
 			when digit
 				n << c
 			when '.'
-				if str[1,1] =~ digit
-					return _parse_float( n, base, digit, str[1..-1], tree )
+				if str[i+1,1] =~ digit
+					return _parse_float( n, base, digit, str[i+1..-1], tree )
 				else
 					break
 				end
 			when 'e', 'E'
-				return _parse_float_decexp( n.to_i(base), 1, str[1..-1], tree)
+				return _parse_float_decexp( n.to_i(base), 1, str[i+1..-1], tree)
 			when 'p', 'P'
-				return _parse_float_binexp( n.to_i(base), 1, str[1..-1], tree)
+				return _parse_float_binexp( n.to_i(base), 1, str[i+1..-1], tree)
 			when /[^[:word:]]/
 				break
 			else
 				raise MarblParseError, "unexpected `#{c}' in number"
 			end
-			str = str[1..-1]
+			#str = str[1..-1]
+			i += 1
 		end
 		tree << MarblToken.new( :integer, n.to_i(base) )
-		str
+		str[i..-1]
 	end
 	def _parse_float n, base, digit, str, tree
 		m = ''
-		until str.empty?
-			case c=str[0,1]
+		i = 0
+		until (c=str[i,1]).empty?
+			case c
 #			when '_'
 			when digit
 				m << c
 			when 'e', 'E'
-				return _parse_float_decexp( (n+m).to_i(base), base ** m.length, str[1..-1], tree )
+				return _parse_float_decexp( (n+m).to_i(base), base ** m.length, str[i+1..-1], tree )
 			when 'p', 'P'
-				return _parse_float_binexp( (n+m).to_i(base), base ** m.length, str[1..-1], tree )
+				return _parse_float_binexp( (n+m).to_i(base), base ** m.length, str[i+1..-1], tree )
 			when /[^[:word:]]/
 				break
 			else
 				raise MarblParseError, "unexpected `#{c}' in number"
 			end
-			str = str[1..-1]
+			i += 1
 		end
 		numer = (n + m).to_i(base)
 		denom = base ** m.length
 		tree << MarblToken.new( :float, Rational(numer, denom) )
-		str
+		str[i..-1]
 	end
 	def _parse_float_decexp n, b, str, tree
 		x = ''
 		neg = nil
-		until str.empty?
-			case c=str[0,1]
+		i = 0
+		until (c=str[i,1]).empty?
+			case c
 			when '-'
 				raise MarblParseError, "unexpected `#{c}' in number" unless neg.nil?
 				neg = true
@@ -120,18 +124,19 @@ class MarblParser
 			else
 				raise MarblParseError, "unexpected `#{c}' in number"
 			end
-			str = str[1..-1]
+			i += 1
 		end
 		x = neg ? x.to_i : -x.to_i
 		denom = b * (10 ** x)
 		tree << MarblToken.new( :float, Rational(n, denom) )
-		str
+		str[i..-1]
 	end
 	def _parse_float_binexp n, b, str, tree
 		x = ''
 		neg = nil
-		until str.empty?
-			case c=str[0,1]
+		i = 0
+		until (c=str[i,1]).empty?
+			case c
 			when '-'
 				raise MarblParseError, "unexpected `#{c}' in number" unless neg.nil?
 				neg = true
@@ -146,12 +151,12 @@ class MarblParser
 			else
 				raise MarblParseError, "unexpected `#{c}' in number"
 			end
-			str = str[1..-1]
+			i += 1
 		end
 		x = neg ? x.to_i : -x.to_i
 		denom = b * (2 ** x)
 		tree << MarblToken.new( :float, Rational(n, denom) )
-		str
+		str[i..-1]
 	end
 
 end
