@@ -29,7 +29,37 @@ class MarblParser
 					s << "\r"
 				when 't'
 					s << "\t"
-				# todo: other stuff, like \u{X+} and \xXX
+				when 'x'
+					case e = str[i,1]
+					when /[[:xdigit:]]/
+						i += 1
+						case f = str[i,1]
+						when /[[:xdigit:]]/
+							s << (e+f).to_i(16).chr
+							i += 1
+						else
+							s << e.to_i(16).chr
+						end
+					else
+						raise MarblParseError, "invalid hex escape"
+					end
+				when 'u'
+					case e = str[i,1]
+					when /[[:xdigit:]]/
+						quad = str[i,4]
+						raise MarblParseError, "invalid Unicode escape" unless quad =~ /[[:xdigit:]]{4}/
+						s << eval(%Q("\\u{#{quad}}"))
+						i += 4
+					when '{'
+						if m = /^{[[:xdigit:]]+}/.match(str[i..-1])
+							s << eval(%Q("\\u#{m[0]}"))
+							i += m[0].length
+						else
+							raise MarblParseError, "invalid Unicode escape"
+						end
+					else
+						raise MarblParseError, "invalid Unicode escape"
+					end
 				when ''
 					raise MarblParseError, "unexpected end of file in string"
 				else
