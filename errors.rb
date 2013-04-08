@@ -1,0 +1,4 @@
+
+class MarblParseError < Exception
+end
+
