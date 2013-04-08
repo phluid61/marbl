@@ -17,6 +17,11 @@ def parse_dq_string s
 	s = $parser.parse_dq_string( s, t )
 	[s, t[0].value]
 end
+def parse_symbol s
+	t = []
+	s = $parser.parse_symbol( s, t )
+	[s, t[0].value.value]
+end
 
 class Test_parser < Test::Unit::TestCase
 	def test_parse_sq_string
@@ -42,6 +47,14 @@ class Test_parser < Test::Unit::TestCase
 		assert_equal( ['',%q["]], parse_dq_string( %q["\""] ))
 		assert_equal( ['',%q[\\"]], parse_dq_string( %q["\\\\\""] ))
 		assert_equal( ['',%Q[\thello world\n\t34\u1234A]], parse_dq_string( %q["\thello\ world\n\x9\x334\u1234\u{41}"] ))
+	end
+	def test_parse_symbol
+		assert_equal( ['','x'], parse_symbol( %q[:x] ))
+		assert_equal( [' ','x'], parse_symbol( %q[:x ] ))
+		assert_equal( ['.y','x'], parse_symbol( %q[:x.y] ))
+		assert_equal( ['','x'], parse_symbol( %q[:"x"] ))
+		assert_equal( ['','x'], parse_symbol( %q[:'x'] ))
+		assert_equal( ['','A'], parse_symbol( %q[:"\x41"] ))
 	end
 end
 

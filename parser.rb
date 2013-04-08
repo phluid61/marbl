@@ -53,6 +53,14 @@ class MarblParser
 		end
 	end
 
+	def parse_word str, tree
+		if m = /[[:word:]]+/.match(str)
+			tree << MarblToken.new( :word, m[0] )
+			str[m[0].length..-1]
+		else
+			raise MarblParseError, "invalid token"
+		end
+	end
 end
 
 require_relative 'parser/comment'

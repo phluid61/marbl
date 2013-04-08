@@ -1,17 +1,7 @@
 
 class MarblParser
 
-=begin
-	def parse_dq_string str, tree
-		# todo: interpolation
-		if m = /^"((\\.|[^\\"]+)*)"/.match(str)
-			tree << MarblToken.new( :dq_string, m[1] )
-			str[ m[0].length..-1 ]
-		else
-			raise MarblParseError, "wtf"
-		end
-	end
-=end
+	# todo: interpolation
 	def parse_dq_string str, tree
 		closed = false
 		s = ''
@@ -82,7 +72,6 @@ class MarblParser
 		str[i..-1]
 	end
 
-
 	def parse_sq_string str, tree
 		closed = false
 		s = ''
@@ -112,6 +101,15 @@ class MarblParser
 		str[i..-1]
 	end
 
+	def parse_plain_symbol str, tree
+		if m = /[[:word:]]+/.match(str)
+			tree << MarblToken.new( :word, m[0] )
+			str[m[0].length..-1]
+		else
+			raise MarblParseError, "invalid symbol"
+		end
+	end
+
 	def parse_symbol str, tree
 		subtree = []
 		case str[1]
@@ -120,9 +118,9 @@ class MarblParser
 		when "'"
 			str = parse_sq_string str[1..-1], subtree
 		else
-			str = parse_word str[1..-1], subtree
+			str = parse_plain_symbol str[1..-1], subtree
 		end
-		tree << MarblToken.new( :symbol, subtree)
+		tree << MarblToken.new( :symbol, subtree[0] )
 		str
 	end
 
