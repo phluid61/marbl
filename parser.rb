@@ -40,16 +40,16 @@ class MarblParser
 			if str[1,1] =~ /[[:digit:]]/
 				str = parse_negative_number str[1..-1], tree
 			else
-				str = parse_symbol str, tree
+				str = parse_operator str, tree
 			end
 		when '+'
 			if str[1,1] =~ /[[:digit:]]/
 				str = parse_number str[1..-1], tree
 			else
-				str = parse_symbol str, tree
+				str = parse_operator str, tree
 			end
 		else
-			str = parse_symbol str, tree
+			str = parse_operator str, tree
 		end
 	end
 
@@ -67,4 +67,4 @@ require_relative 'parser/comment'
 require_relative 'parser/string'
 require_relative 'parser/variable'
 require_relative 'parser/number'
-
+require_relative 'parser/operator'
