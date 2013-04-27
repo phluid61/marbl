@@ -78,7 +78,7 @@ Statements
 
 stmts:
 	EMPTY
-|	<stmts> <stmt>
+|	<stmts> <stmt> ';'
 ;
 
 stmt:
