@@ -20,6 +20,7 @@ Things to remember:
 * Non-terminals: `%type <stack-member> tokenName`
   * lowercase
   * default type is integer
+* `$$` = LHS, `$1` = first RHS, `$2` = second RHS, etc.
 
 ### Writing the Lex
 
