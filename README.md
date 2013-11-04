@@ -16,8 +16,8 @@ Goals:
 * expressive
 * intuitive
 * object-oriented
-* * everything is an object
-* * javascript-style function referencing
+  * everything is an object
+  * javascript-style function referencing
 * ruby-style inheritance
 
 Syntax/general semantics:
