@@ -23,10 +23,10 @@ Goals:
 Syntax/general semantics:
 
 * everything is statements
-* * curly-braces for nesting statements
-* * semi-colons end single statements
-* * value of nesting statement is value of last inner statement (empty = null)
-* * nesting statements provide scope for local variables
+  * curly-braces for nesting statements
+  * semi-colons end single statements
+  * value of nesting statement is value of last inner statement (empty = null)
+  * nesting statements provide scope for local variables
 * parentheses are for parameters
 * _foo_._bar_ is always method _bar_ on object _foo_
 * **TODO** something about sigils for instance (/global?) variables
