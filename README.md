@@ -44,6 +44,9 @@ Keywords:
 * repeat{}until()
 * repeat{}while()
 * **TODO** switch/case/..?
+* **TODO** return / next/break
+* **TODO** raise/rescue/ensure
+* **TODO** throw/catch
 
 Matty's Really Functional Language
 ----------------------------------
