@@ -1,0 +1,74 @@
+
+# class
+#  * keyword
+#  * creates new scope (not closure)
+#
+# func
+#  * function (?)
+#  * binds lambda to current scope
+#
+# extend
+#  * function (?)
+#  * appends scope to current scope's ancestry
+
+Object = class {
+	!@ = func {|| false }
+	== = func {|o| ... }
+}
+
+Class = class {
+	new = func {|*args| construct; initialize(*args); }
+	extend = func {|klass| ... }
+	prepend = func {|klass| ... }
+}
+
+Number = class {
+	<  = func {|o| ... }
+	<= = func {|o| ... }
+	>= = func {|o| ... }
+	>  = func {|o| ... }
+	<=> = func {|o| ... }
+}
+ComplexNumber = class {
+	extend(Number);
+	initialize = func {||
+		@real_part = 0;
+		@imaginary_part = 0;
+	}
+	real_part = func {|| @real_part; }
+	imaginary_part = func {|| @imaginary_part; }
+}
+Rational = class {
+	extend(Number);
+	+ = func {|o| ... }
+	- = func {|o| ... }
+	* = func {|o| ... }
+	/ = func {|o| ... }
+	% = func {|o| ... }
+	** = func {|o| pow(self, o) }
+	// = func {|o| log(o) / log(self) }
+	-@ = func {|| ... }
+}
+Integer = class {
+	extend(Rational);
+	~@ = func {|| ... }
+	& = func {|| ... }
+	| = func {|| ... }
+	^ = func {|| ... }
+}
+
+String = class {
+	=~ = func {|o| ... }
+	+ = func {|o| ... }
+	* = func {|o| ... }
+}
+
+Foo = class {
+	bar = func {|baz, qux|
+	}
+}
+
+Bar = class {
+	extend(Foo);
+}
+
