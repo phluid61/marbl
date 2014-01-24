@@ -30,9 +30,22 @@ class Object {
 }
 
 class Class {
-	def new(*args) { construct; initialize(*args); }
+	def new(*args, &b?) {
+		construct;
+		initialize(*args);
+		if (given?(b))
+			eval(&b);
+	}
 	def extend(klass) { ... }
 	def prepend(klass) { ... }
+}
+
+False = Object.new {
+	def !@() true;
+}
+
+Nil = Object.new {
+	def !@() true;
 }
 
 class Number {
