@@ -4,71 +4,76 @@
 #  * creates new scope (not closure)
 #
 # func
-#  * function (?)
-#  * binds lambda to current scope
+#  * keyword
+#  * creates new scope (not closure?)
+#
+# Lambdas $(){}
+#   $(a,b){ ... }   arity=2
+#   $(){ ... }      arity=0
+#   $(a.*b){ ... }  arity=-2
+#   $(*a){ ... }    arity=-1
+#   ${ ... }        arity=-1
 #
 # extend
 #  * function (?)
 #  * appends scope to current scope's ancestry
 
-Object = class {
-	!@ = func {|| false }
-	== = func {|o| ... }
+class Object {
+	def !@() false;
+	def ==(o){ ... }
+	def self(&b?) {
+		if (given?(b))
+			yield(self);
+		else
+			self;
+	}
 }
 
-Class = class {
-	new = func {|*args| construct; initialize(*args); }
-	extend = func {|klass| ... }
-	prepend = func {|klass| ... }
+class Class {
+	def new(*args) { construct; initialize(*args); }
+	def extend(klass) { ... }
+	def prepend(klass) { ... }
 }
 
-Number = class {
-	<  = func {|o| ... }
-	<= = func {|o| ... }
-	>= = func {|o| ... }
-	>  = func {|o| ... }
-	<=> = func {|o| ... }
+class Number {
+	def < (o){ ... }
+	def <=(o){ ... }
+	def >=(o){ ... }
+	def > (o){ ... }
+	def <=>(o){ ... }
 }
-ComplexNumber = class {
+class ComplexNumber {
 	extend(Number);
-	initialize = func {||
+	def initialize(){
 		@real_part = 0;
 		@imaginary_part = 0;
 	}
-	real_part = func {|| @real_part; }
-	imaginary_part = func {|| @imaginary_part; }
+	def real_part(){ @real_part; }
+	def imaginary_part(){ @imaginary_part; }
 }
-Rational = class {
+class Rational {
 	extend(Number);
-	+ = func {|o| ... }
-	- = func {|o| ... }
-	* = func {|o| ... }
-	/ = func {|o| ... }
-	% = func {|o| ... }
-	** = func {|o| pow(self, o) }
-	// = func {|o| log(o) / log(self) }
-	-@ = func {|| ... }
+	def +(o){ ... }
+	def -(o){ ... }
+	def *(o){ ... }
+	def /(o){ ... }
+	def %(o){ ... }
+	def **(o){ pow(self, o) }
+	def //(o){ log(o) / log(self) }
+	def -@(){ ... }
 }
-Integer = class {
+class Integer {
 	extend(Rational);
-	~@ = func {|| ... }
-	& = func {|| ... }
-	| = func {|| ... }
-	^ = func {|| ... }
+	def ~@(){ ... }
+	def &(){ ... }
+	def |(){ ... }
+	def ^(){ ... }
 }
 
-String = class {
-	=~ = func {|o| ... }
-	+ = func {|o| ... }
-	* = func {|o| ... }
-}
-
-Foo = class {
-	bar = func {|baz, qux|
-	}
-}
-
-Bar = class {
-	extend(Foo);
+class String {
+	def =~(o){ ... }
+	def +(o){ ... }
+	def *(o){ ... }
+	def substr(start,length?) { ... }
 }
 
