@@ -40,11 +40,11 @@ class Class {
 	def prepend(klass) { ... }
 }
 
-False = Object.new {
+object False {
 	def !@() true;
 }
 
-Nil = Object.new {
+object Nil {
 	def !@() true;
 }
 
@@ -78,9 +78,9 @@ class Rational {
 class Integer {
 	extend(Rational);
 	def ~@(){ ... }
-	def &(){ ... }
-	def |(){ ... }
-	def ^(){ ... }
+	def &(o){ ... }
+	def |(o){ ... }
+	def ^(o){ ... }
 }
 
 class String {
@@ -88,5 +88,26 @@ class String {
 	def +(o){ ... }
 	def *(o){ ... }
 	def substr(start,length?) { ... }
+}
+
+
+object Sequence {
+	def fibonacci(n) {
+		raise("Invalid index #{n}, must be >= 0") if (n < 0);
+		return 0 if (n == 0);
+		return 1 if (n <= 2);
+		return self.fibonacci(n - 2) + self.fibonacci(n - 1);
+	}
+	def lucas(n) {
+		raise("Invalid index #{n}, must be >= 0") if (n < 0);
+		return 2 if (n == 0);
+		return 1 if (n == 1);
+		return self.lucas(n - 2) + self.lucas(n - 1);
+	}
+	def factorial(n) {
+		raise("Invalid index #{n}, must be >= 0") if (n < 0);
+		return 1 if (n == 0);
+		return n * self.factorial(n - 1);
+	}
 }
 
