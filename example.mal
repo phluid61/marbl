@@ -10,7 +10,7 @@
 # Lambdas $(){}
 #   $(a,b){ ... }   arity=2
 #   $(){ ... }      arity=0
-#   $(a.*b){ ... }  arity=-2
+#   $(a,*b){ ... }  arity=-2
 #   $(*a){ ... }    arity=-1
 #   ${ ... }        arity=-1
 #
