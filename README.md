@@ -41,8 +41,12 @@ Keywords:
 * unless(){}else{}
 * while(){}
 * until(){}
-* repeat{}until()
 * repeat{}while()
+* repeat{}until()
+* _stmt_ if()
+* _stmt_ unless()
+* _stmt_ while()
+* _stmt_ until()
 * **TODO** switch/case/..?
 * **TODO** return / next/break
 * **TODO** raise/rescue/ensure
