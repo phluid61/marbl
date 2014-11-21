@@ -32,7 +32,7 @@ class Object {
 class Class {
 	def new(*args, &b?) {
 		construct;
-		initialize(*args);
+		__init__(*args);
 		if (given?(b))
 			eval(&b);
 	}
@@ -57,7 +57,7 @@ class Number {
 }
 class ComplexNumber {
 	extend(Number);
-	def initialize(){
+	def __init__(){
 		@real_part = 0;
 		@imaginary_part = 0;
 	}
