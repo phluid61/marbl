@@ -1,11 +1,18 @@
 
-# class
+# class $Name {$scope}
 #  * keyword
-#  * creates new scope (not closure)
+#  * not closure (?)
+#  * 'def' in scope
 #
-# func
+# object $obj {$scope}
+#
+# func $name($args) {$scope}
 #  * keyword
 #  * creates new scope (not closure?)
+#
+# def $name($args) {$scope}
+#  * keyword (only in class/object scope)
+#  * creates 'func' and binds to current scope
 #
 # Lambdas $(){}
 #   $(a,b){ ... }   arity=2
@@ -14,12 +21,9 @@
 #   $(*a){ ... }    arity=-1
 #   ${ ... }        arity=-1
 #
-# extend
-#  * function (?)
-#  * appends scope to current scope's ancestry
 
 class Object {
-	def !@() false;
+	def !@() { false; }
 	def ==(o){ ... }
 	def self(&b?) {
 		if (given?(b))
@@ -30,22 +34,29 @@ class Object {
 }
 
 class Class {
-	def new(*args, &b?) {
-		construct;
-		__init__(*args);
-		if (given?(b))
-			eval(&b);
+	def __init__() {
+		@ancestors = [];
+		@prepends = [];
 	}
-	def extend(klass) { ... }
-	def prepend(klass) { ... }
+	def extend(klass) { @ancestors.append(klass); }
+	def prepend(klass) { @prepends.prepend(klass); }
+	def new(*args, &b?) {
+		instance = {klass:this, eigenclass:{klass:Class}};
+		instance.__init__(*args);
+		if (given?(b))
+			b.bind('this':instance).run();
+		return instance;
+	}
 }
 
-object False {
-	def !@() true;
+object true {}
+
+object false {
+	def !@() { true; }
 }
 
-object Nil {
-	def !@() true;
+object null {
+	def !@() { true; }
 }
 
 class Number {
@@ -57,15 +68,21 @@ class Number {
 }
 class ComplexNumber {
 	extend(Number);
-	def __init__(){
-		@real_part = 0;
-		@imaginary_part = 0;
+	def __init__(r=0, i=0) {
+		@real_part = r;
+		@imaginary_part = i;
 	}
 	def real_part(){ @real_part; }
 	def imaginary_part(){ @imaginary_part; }
 }
 class Rational {
 	extend(Number);
+	def __init__(n, d) {
+		@numerator = n;
+		@denominator = d;
+	}
+	def numerator() { @numerator; }
+	def denominator() { @denominator; }
 	def +(o){ ... }
 	def -(o){ ... }
 	def *(o){ ... }
@@ -77,6 +94,9 @@ class Rational {
 }
 class Integer {
 	extend(Rational);
+	def __init__(i) {
+		super.__init__(i, 1);
+	}
 	def ~@(){ ... }
 	def &(o){ ... }
 	def |(o){ ... }
